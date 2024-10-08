@@ -16,7 +16,8 @@ export default function Index({ auth, kats, cmo, success }) {
                         {cmo.name}
                     </h2>
                     <Link
-                        href={route("employee.create")}
+                        // href={route("employee.create")}
+                        href={route('employee.createKat', cmo.id)}
                         className="bg-emerald-500 py-1 px-3 text-white rounded shadow transition-all hover:bg-emerald-600"
                     >
                         Add New

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\CmoKat;
+use App\Models\Kat;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class EmployeeController extends Controller
 {
@@ -100,5 +102,48 @@ class EmployeeController extends Controller
     public function destroy(User $user)
     {
         //
+    }
+
+    public function createKat($cmoId)
+    {
+        // Cari CMO berdasarkan ID
+        $cmo = User::find($cmoId);
+
+        if (!$cmo) {
+            return redirect()->route('employee.index')->with('error', 'CMO not found');
+        }
+
+        // Ambil semua Kat yang belum terhubung dengan CMO ini
+        $availableKats = Kat::whereNotExists(function ($query) {
+            $query->select(DB::raw(1))
+                ->from('cmo_kats')
+                ->whereRaw('cmo_kats.kat_id = kats.id');
+        })->get();
+
+        return inertia('Employee/AddKat', [
+            "cmo" => $cmo,
+            "availableKats" => $availableKats,
+        ]);
+    }
+
+    public function storeKat(Request $request, $cmoId)
+    {
+        // Validasi input
+        $request->validate([
+            'kat_ids' => 'required|array',
+            'kat_ids.*' => 'exists:kats,id',
+        ]);
+
+        // Cari CMO berdasarkan ID
+        $cmo = User::find($cmoId);
+
+        if (!$cmo) {
+            return redirect()->route('employee.index')->with('error', 'CMO not found');
+        }
+
+        // Attach multiple Kats ke CMO
+        $cmo->kats()->attach($request->kat_ids);
+
+        return redirect()->route('employee.show', $cmoId)->with('success', 'Kats added successfully');
     }
 }

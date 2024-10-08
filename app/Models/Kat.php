@@ -27,4 +27,10 @@ class Kat extends Model
     {
         return $this->belongsToMany(User::class, 'cmo_kats');
     }
+
+    // Definisikan relasi many-to-many dengan model CmoKat
+    public function cmoKats()
+    {
+        return $this->belongsToMany(CmoKat::class, 'cmo_kats', 'kat_id', 'cmo_id');
+    }
 }

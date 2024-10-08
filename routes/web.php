@@ -17,6 +17,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::resource('employee', EmployeeController::class);
+
+    // Route untuk menambah Kat
+    Route::get('employee/{cmoId}/add-kat', [EmployeeController::class, 'createKat'])->name('employee.createKat');
+
+    // Route untuk menyimpan Kat baru
+    Route::post('employee/{cmoId}/add-kat', [EmployeeController::class, 'storeKat'])->name('employee.storeKat');
 });
 
 Route::middleware('auth')->group(function () {
