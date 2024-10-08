@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
         // Roles
         Role::create(['id' => 1, 'name' => 'BH']);
         Role::create(['id' => 2, 'name' => 'CMO']);
+        Role::create(['id' => 3, 'name' => 'MSP']);
 
         // Users
         User::factory()->create([
@@ -49,6 +50,15 @@ class DatabaseSeeder extends Seeder
             'name' => 'REDIKSON FIDELIUS NADEAK',
             'password' => Hash::make('password'),
             'role_id' => 2,
+        ]);
+
+        // User MSP
+        User::factory()->create([
+            'id' => 4,
+            'nik' => '000243971',
+            'name' => 'ASEP SAEPUDIN',
+            'password' => Hash::make('password'),
+            'role_id' => 3,
         ]);
 
         // Regions

@@ -2,11 +2,11 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import Pagination from '@/Components/Pagination';
 
-export default function Dashboard({ auth, dataAll }) {
+export default function Dashboard({ dataAll }) {
     console.log(dataAll); // Debugging: Check data structure in the console
     return (
         <AuthenticatedLayout
-            user={auth.user}
+            // user={auth.user}
             header={
                 <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
                     Dashboard
