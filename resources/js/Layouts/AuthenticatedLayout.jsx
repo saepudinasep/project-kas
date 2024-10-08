@@ -42,6 +42,12 @@ export default function Authenticated({ header, children }) {
                                 >
                                     Regions
                                 </NavLink>
+                                <NavLink
+                                    href={route('branch.index')}
+                                    active={route().current('branch.index')}
+                                >
+                                    Branches
+                                </NavLink>
                             </div>
                         </div>
 

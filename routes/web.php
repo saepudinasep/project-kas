@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BranchController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ProfileController;
@@ -19,6 +20,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::resource('employee', EmployeeController::class);
     Route::resource('region', RegionController::class);
+    Route::resource('branch', BranchController::class);
 
     // Route untuk menambah Kat
     Route::get('employee/{cmoId}/add-kat', [EmployeeController::class, 'createKat'])->name('employee.createKat');
