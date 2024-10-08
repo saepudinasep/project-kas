@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('cmo_kats', function (Blueprint $table) {
             $table->id();
-            $table->integer('cmo_id')->unsigned();
-            $table->integer('kat_id')->unsigned();
+            // $table->integer('cmo_id')->unsigned();
+            // $table->integer('kat_id')->unsigned();
+            $table->unsignedBigInteger('cmo_id');
+            $table->unsignedBigInteger('kat_id');
             $table->foreign('cmo_id')->references('id')->on('users');
             $table->foreign('kat_id')->references('id')->on('kats');
             $table->timestamps();
