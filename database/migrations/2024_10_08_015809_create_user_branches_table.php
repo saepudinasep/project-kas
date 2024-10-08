@@ -17,8 +17,8 @@ return new class extends Migration
             // $table->integer('branch_id')->unsigned();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('branch_id');
-            $table->foreign('user_id')->references('id')->on('user');
-            $table->foreign('branch_id')->references('id')->on('branch');
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('branch_id')->references('id')->on('branches');
             $table->timestamps();
         });
     }
