@@ -1,11 +1,18 @@
 import Pagination from "@/Components/Pagination";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link } from "@inertiajs/react";
+import { Head, Link, router } from "@inertiajs/react";
 
 export default function Index({ auth, kats, cmo, success }) {
 
     // console.log(kats);  // Untuk debugging
     // console.log(cmo);   // Untuk debugging
+
+    const deleteKat = (kat) => {
+        if (!window.confirm("Are you sure you want to delete the kat?")) {
+            return;
+        }
+        router.delete(route("employee.destroy", cmo.id))
+    }
 
     return (
         <AuthenticatedLayout
@@ -56,6 +63,9 @@ export default function Index({ auth, kats, cmo, success }) {
                                                             className="font-medium text-blue-600 dark:text-blue-500 hover:underline mx-1">
                                                             Edit
                                                         </Link>
+                                                        <button onClick={(e) => deleteKat(kat)} className="font-medium text-red-600 dark:text-red-500 hover:underline mx-1">
+                                                            Delete
+                                                        </button>
                                                     </td>
                                                 </tr>
                                             ))

@@ -76,7 +76,7 @@ class EmployeeController extends Controller
         return inertia('Employee/Show', [
             "kats" => $kats,
             "cmo" => $cmo,
-            // 'success' => session('success'),
+            'success' => session('success'),
         ]);
     }
 

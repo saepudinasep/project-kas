@@ -33,10 +33,20 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('password'),
             'role_id' => 1,
         ]);
+
+        // User CMO
         User::factory()->create([
             'id' => 2,
             'nik' => '237210819',
             'name' => 'ANGGI NOPRIALDI',
+            'password' => Hash::make('password'),
+            'role_id' => 2,
+        ]);
+
+        User::factory()->create([
+            'id' => 3,
+            'nik' => '237212811',
+            'name' => 'REDIKSON FIDELIUS NADEAK',
             'password' => Hash::make('password'),
             'role_id' => 2,
         ]);
@@ -53,11 +63,26 @@ class DatabaseSeeder extends Seeder
         // User-Branch
         UserBranch::factory()->create(['id' => 1, 'user_id' => 1, 'branch_id' => 1]); // Branch Head in Branch A
         UserBranch::factory()->create(['id' => 2, 'user_id' => 2, 'branch_id' => 1]); // CMO in Branch A
+        UserBranch::factory()->create(['id' => 3, 'user_id' => 3, 'branch_id' => 1]); // CMO in Branch A
 
         // Kats
         Kat::factory()->create(['id' => 1, 'name' => 'H2114']);
         Kat::factory()->create(['id' => 2, 'name' => 'H2115']);
         Kat::factory()->create(['id' => 3, 'name' => 'H2116']);
+        Kat::factory()->create(['id' => 4, 'name' => 'H2117']);
+        Kat::factory()->create(['id' => 5, 'name' => 'H2118']);
+        Kat::factory()->create(['id' => 6, 'name' => 'H2119']);
+        Kat::factory()->create(['id' => 7, 'name' => 'H2120']);
+        Kat::factory()->create(['id' => 8, 'name' => 'H2121']);
+        Kat::factory()->create(['id' => 9, 'name' => 'H2122']);
+        Kat::factory()->create(['id' => 10, 'name' => 'H2123']);
+        Kat::factory()->create(['id' => 11, 'name' => 'H2124']);
+        Kat::factory()->create(['id' => 12, 'name' => 'H2125']);
+        Kat::factory()->create(['id' => 13, 'name' => 'H2126']);
+        Kat::factory()->create(['id' => 14, 'name' => 'H2127']);
+        Kat::factory()->create(['id' => 15, 'name' => 'H2128']);
+        Kat::factory()->create(['id' => 16, 'name' => 'H2129']);
+        Kat::factory()->create(['id' => 17, 'name' => 'H2130']);
 
         // Cmo-Kat
         CmoKat::factory()->create(['id' => 1, 'cmo_id' => 2, 'kat_id' => 1]);
