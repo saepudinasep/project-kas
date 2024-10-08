@@ -77,13 +77,16 @@ export default function IndexMSP({ auth, branches, success }) {  // Updated here
                                     </tbody>
                                 </table>
                             </div>
-                            {branches && branches.links && (
-                                <Pagination links={branches.links} />
-                            )}
                         </div>
                     </div>
                 </div>
             </div>
+
+            <footer>
+                {branches && branches.links && (
+                    <Pagination links={branches.links} />
+                )}
+            </footer>
         </AuthenticatedLayout>
     )
 }

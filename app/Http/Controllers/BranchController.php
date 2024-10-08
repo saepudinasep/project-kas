@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Branch;
+use App\Models\Region;
 use Illuminate\Http\Request;
 
 class BranchController extends Controller
@@ -24,7 +25,10 @@ class BranchController extends Controller
      */
     public function create()
     {
-        //
+        $regions = Region::all();
+        return inertia("Branch/Create", [
+            "regions" => $regions
+        ]);
     }
 
     /**
