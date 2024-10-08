@@ -14,8 +14,17 @@ class Kat extends Model
     ];
 
     // Kat belongs to many CMOs
-    public function cmos()
+    // public function cmos()
+    // {
+    //     return $this->belongsToMany(User::class, 'cmo_kats', 'kat_id', 'cmo_id');
+    // }
+    public function kats()
     {
-        return $this->belongsToMany(User::class, 'cmo_kats', 'kat_id', 'cmo_id');
+        return $this->belongsToMany(Kat::class, 'cmo_kats', 'cmo_id', 'kat_id');
+    }
+
+    public function cmoUsers()
+    {
+        return $this->belongsToMany(User::class, 'cmo_kats');
     }
 }

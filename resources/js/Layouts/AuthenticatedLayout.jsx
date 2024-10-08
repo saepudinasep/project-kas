@@ -32,7 +32,7 @@ export default function Authenticated({ header, children }) {
                                 </NavLink>
                                 <NavLink
                                     href={route('employee.index')}
-                                    active={route().current('employee')}
+                                    active={route().current('employee.index')}
                                 >
                                     Employees
                                 </NavLink>

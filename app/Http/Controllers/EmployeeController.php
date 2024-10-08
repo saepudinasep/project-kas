@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CmoKat;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -12,7 +13,31 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        return inertia('Employee/Index');
+        $id = auth()->id();  // Ambil ID pengguna yang sedang login
+        $branchMaster = User::find($id);  // Ambil user BM yang sedang login
+
+        // dd($branchMaster);
+
+        // Pastikan branchMaster memiliki cabang dan hanya ambil CMO dari cabang tersebut
+        $branch = $branchMaster->branches->first();
+        // dd($branch);
+        if ($branch) {
+            // Ambil semua CMO di cabang BM (role_id = 2)
+            $cmos = $branch->users()->where('role_id', 2)->paginate(10);
+            $cmos1 = $branch->users()->where('role_id', 2)->get();
+            // dd($cmos1);  // Dump dan die untuk menampilkan daftar CMO
+            return inertia('Employee/Index', [
+                "cmos" => $cmos,
+                'success' => session('success'),
+            ]);
+        } else {
+            // Jika tidak ada cabang
+            // dd('No branches found for this Branch Master.');
+            return inertia('Employee/Index', [
+                "cmos" => [],
+                'success' => session('success'),
+            ]);
+        }
     }
 
     /**
@@ -34,9 +59,23 @@ class EmployeeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(User $user)
+    public function show($id)
     {
-        //
+        // Ambil data CMO berdasarkan ID
+        $cmo = User::with('kats')->find($id);
+
+        if (!$cmo) {
+            return redirect()->route('employee.index')->with('error', 'CMO not found');
+        }
+        // Ambil data Kat yang berelasi dengan CMO ini
+        $kats = $cmo->kats()->paginate(10);
+
+        // dd($cmo);
+        return inertia('Employee/Show', [
+            "kats" => $kats,
+            "cmo" => $cmo,
+            // 'success' => session('success'),
+        ]);
     }
 
     /**

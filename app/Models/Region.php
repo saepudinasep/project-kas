@@ -12,4 +12,9 @@ class Region extends Model
     protected $fillable = [
         'name',
     ];
+
+    public function branches()
+    {
+        return $this->hasMany(Branch::class);
+    }
 }

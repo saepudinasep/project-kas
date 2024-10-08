@@ -16,6 +16,16 @@ class Branch extends Model
     protected $fillable = ['name', 'region_id'];
 
     // Branch can have multiple users (CMO/Branch Master)
+    // public function users()
+    // {
+    //     return $this->belongsToMany(User::class);
+    // }
+
+    public function region()
+    {
+        return $this->belongsTo(Region::class);
+    }
+
     public function users()
     {
         return $this->belongsToMany(User::class, 'user_branches');

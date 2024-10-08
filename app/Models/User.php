@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -58,8 +59,18 @@ class User extends Authenticatable
     }
 
     // CMO can have many Kats
-    public function kats()
+    // public function kats()
+    // {
+    //     return $this->hasManyThrough(Kat::class, CmoKat::class, 'cmo_id', 'id', 'id', 'kat_id');
+    // }
+    public function cmoKats()
     {
-        return $this->hasManyThrough(Kat::class, CmoKat::class, 'cmo_id', 'id', 'id', 'kat_id');
+        return $this->belongsToMany(Kat::class, 'cmo_kats');
+    }
+
+    // Relasi many-to-many dengan Kat
+    public function kats(): BelongsToMany
+    {
+        return $this->belongsToMany(Kat::class, 'cmo_kats', 'cmo_id', 'kat_id');
     }
 }
