@@ -2,7 +2,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import Pagination from '@/Components/Pagination';
 
-export default function Dashboard() {
+export default function DashboardMSP() {
     return (
         <AuthenticatedLayout
             // user={auth.user}

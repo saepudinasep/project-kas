@@ -7,6 +7,7 @@ use App\Models\Kat;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class EmployeeController extends Controller
 {
@@ -16,29 +17,41 @@ class EmployeeController extends Controller
     public function index()
     {
         $id = auth()->id();  // Ambil ID pengguna yang sedang login
-        $branchMaster = User::find($id);  // Ambil user BM yang sedang login
+        $user = User::find($id);
 
-        // dd($branchMaster);
-
-        // Pastikan branchMaster memiliki cabang dan hanya ambil CMO dari cabang tersebut
-        $branch = $branchMaster->branches->first();
-        // dd($branch);
-        if ($branch) {
-            // Ambil semua CMO di cabang BM (role_id = 2)
-            $cmos = $branch->users()->where('role_id', 2)->paginate(10);
-            $cmos1 = $branch->users()->where('role_id', 2)->get();
-            // dd($cmos1);  // Dump dan die untuk menampilkan daftar CMO
-            return inertia('Employee/Index', [
-                "cmos" => $cmos,
-                'success' => session('success'),
+        if ($user->role_id == "3") {
+            $employees = User::where('role_id', 1)->paginate(10);
+            // $branches =
+            // dd($employees);
+            return inertia('Employee/IndexMSP', [
+                'employees' => $employees,
             ]);
         } else {
-            // Jika tidak ada cabang
-            // dd('No branches found for this Branch Master.');
-            return inertia('Employee/Index', [
-                "cmos" => [],
-                'success' => session('success'),
-            ]);
+
+            $branchMaster = User::find($id);  // Ambil user BM yang sedang login
+
+            // dd($branchMaster);
+
+            // Pastikan branchMaster memiliki cabang dan hanya ambil CMO dari cabang tersebut
+            $branch = $branchMaster->branches->first();
+            // dd($branch);
+            if ($branch) {
+                // Ambil semua CMO di cabang BM (role_id = 2)
+                $cmos = $branch->users()->where('role_id', 2)->paginate(10);
+                // $cmos1 = $branch->users()->where('role_id', 2)->get();
+                // dd($cmos1);  // Dump dan die untuk menampilkan daftar CMO
+                return inertia('Employee/Index', [
+                    "cmos" => $cmos,
+                    'success' => session('success'),
+                ]);
+            } else {
+                // Jika tidak ada cabang
+                // dd('No branches found for this Branch Master.');
+                return inertia('Employee/Index', [
+                    "cmos" => [],
+                    'success' => session('success'),
+                ]);
+            }
         }
     }
 
@@ -47,7 +60,7 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        //
+        return inertia("Employee/Create");
     }
 
     /**
@@ -55,7 +68,16 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request->all());
+
+        $user = new User;
+        $user->nik = $request->nik;
+        $user->name = $request->name;
+        $user->password = Hash::make('password');
+        $user->role_id = 1;
+        $user->save();
+
+        // Tambahan Branch
     }
 
     /**
