@@ -17,8 +17,8 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'nik',
         'name',
-        'email',
         'password',
     ];
 
@@ -40,8 +40,26 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
+            // 'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    // User belongs to a role, so define the relation
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    // User can belong to multiple branches
+    public function branches()
+    {
+        return $this->belongsToMany(Branch::class, 'user_branches');
+    }
+
+    // CMO can have many Kats
+    public function kats()
+    {
+        return $this->hasManyThrough(Kat::class, CmoKat::class, 'cmo_id', 'id', 'id', 'kat_id');
     }
 }
