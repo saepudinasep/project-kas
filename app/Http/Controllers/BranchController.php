@@ -13,7 +13,12 @@ class BranchController extends Controller
      */
     public function index()
     {
-        $branches = Branch::with('region')->paginate(10);
+        // $branches = Branch::with('region')->paginate(10);
+        $branches = Branch::join('regions', 'branches.region_id', '=', 'regions.id')
+            ->orderBy('regions.name', 'asc')  // Order by region name
+            ->select('branches.*')  // Ensure you only select the columns from branches
+            ->with('region')  // Eager load the related region
+            ->paginate(10);
         // dd($branches);
         return inertia("Branch/IndexMSP", [
             "branches" => $branches
@@ -36,7 +41,12 @@ class BranchController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $branch = new Branch;
+        $branch->name = $request->name;
+        $branch->region_id = $request->region_id;
+        $branch->save();
+
+        return to_route('branch.index')->with('success', 'Branch was created');
     }
 
     /**
@@ -52,7 +62,11 @@ class BranchController extends Controller
      */
     public function edit(Branch $branch)
     {
-        //
+        $regions = Region::all();
+        return inertia("Branch/Edit", [
+            "branch" => $branch,
+            "regions" => $regions
+        ]);
     }
 
     /**
@@ -60,7 +74,16 @@ class BranchController extends Controller
      */
     public function update(Request $request, Branch $branch)
     {
-        //
+        $id = $branch->id;
+
+        $branch = Branch::find($id);
+
+        $branch->name = $request->name;
+        $branch->region_id = $request->region_id;
+
+        $branch->save();
+
+        return to_route('branch.index')->with('success', "Branch \"$branch->name\" was updated");
     }
 
     /**
@@ -68,6 +91,12 @@ class BranchController extends Controller
      */
     public function destroy(Branch $branch)
     {
-        //
+        $id = $branch->id;
+
+        $branch = Branch::find($id);
+        $name = $branch->name;
+        $branch->delete();
+
+        return to_route('branch.index')->with('success', "Branch \"$name\" was deleted");
     }
 }

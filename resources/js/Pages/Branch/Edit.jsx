@@ -5,17 +5,21 @@ import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 
-export default function Create({ auth, regions }) {
+export default function Edit({ auth, branch, regions }) {
+
+    console.log(branch);
+
 
     const { data, setData, post, errors, reset } = useForm({
-        name: "",
-        region_id: "",
+        name: branch.name || "",
+        region_id: branch.region_id || "",
+        _method: "PUT",
     });
 
     const onSubmit = (e) => {
         e.preventDefault();
 
-        post(route("branch.store"))
+        post(route("branch.update", branch.id))
     };
 
     return (
@@ -29,7 +33,7 @@ export default function Create({ auth, regions }) {
                 </div>
             }
         >
-            <Head title="Branchs" />
+            <Head title="Branches" />
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -46,6 +50,7 @@ export default function Create({ auth, regions }) {
                                 <SelectInput
                                     id="region_id"
                                     name="region_id"
+                                    value={data.region_id}
                                     className="mt-1 block w-full"
                                     onChange={(e) => setData("region_id", e.target.value)}
                                 >

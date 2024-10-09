@@ -6,7 +6,7 @@ export default function IndexMSP({ auth, branches, success }) {  // Updated here
 
     console.log(branches);
 
-    const deleteRegion = (branch) => {
+    const deleteBranch = (branch) => {
         if (!window.confirm("Are you sure you want to delete the branch?")) {
             return;
         }
@@ -63,7 +63,7 @@ export default function IndexMSP({ auth, branches, success }) {  // Updated here
                                                             className="font-medium text-blue-600 dark:text-blue-500 hover:underline mx-1">
                                                             Edit
                                                         </Link>
-                                                        <button onClick={(e) => deleteRegion(branch)} className="font-medium text-red-600 dark:text-red-500 hover:underline mx-1">
+                                                        <button onClick={(e) => deleteBranch(branch)} className="font-medium text-red-600 dark:text-red-500 hover:underline mx-1">
                                                             Delete
                                                         </button>
                                                     </td>
