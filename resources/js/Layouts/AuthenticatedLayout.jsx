@@ -36,18 +36,22 @@ export default function Authenticated({ header, children }) {
                                 >
                                     Employees
                                 </NavLink>
-                                <NavLink
-                                    href={route('region.index')}
-                                    active={route().current('region.index')}
-                                >
-                                    Regions
-                                </NavLink>
-                                <NavLink
-                                    href={route('branch.index')}
-                                    active={route().current('branch.index')}
-                                >
-                                    Branches
-                                </NavLink>
+                                {user.role_id === 3 && (
+                                    <>
+                                        <NavLink
+                                            href={route('region.index')}
+                                            active={route().current('region.index')}
+                                        >
+                                            Regions
+                                        </NavLink>
+                                        <NavLink
+                                            href={route('branch.index')}
+                                            active={route().current('branch.index')}
+                                        >
+                                            Branches
+                                        </NavLink>
+                                    </>
+                                )}
                             </div>
                         </div>
 
