@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Branch;
 use App\Models\CmoKat;
 use App\Models\Kat;
+use App\Models\Region;
 use App\Models\User;
+use App\Models\UserBranch;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -60,7 +63,18 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        return inertia("Employee/Create");
+        $id = auth()->id();  // Ambil ID pengguna yang sedang login
+        $user = User::find($id);
+        if ($user->role_id == 3) {
+            $regions = Region::all();
+            $branches = Branch::all();
+            return inertia("Employee/CreateBM", [
+                'regions' => $regions,
+                'branches' => $branches,
+            ]);
+        } else {
+            return inertia("Employee/Create");
+        }
     }
 
     /**
@@ -70,14 +84,26 @@ class EmployeeController extends Controller
     {
         // dd($request->all());
 
-        $user = new User;
-        $user->nik = $request->nik;
-        $user->name = $request->name;
-        $user->password = Hash::make('password');
-        $user->role_id = 1;
-        $user->save();
+        $id = auth()->id();  // Ambil ID pengguna yang sedang login
+        $user = User::find($id);
+        if ($user->role_id == 3) {
+            // Create User BM
+            $user = new User;
+            $user->nik = $request->nik;
+            $user->name = $request->name;
+            $user->password = Hash::make('password');
+            $user->role_id = 1;
+            $user->save();
 
-        // Tambahan Branch
+            // Tambahan Branch
+            $userBranch = new UserBranch;
+            $userBranch->user_id = $user->id;
+            $userBranch->branch_id = $request->branch_id;
+            $userBranch->save();
+
+            return to_route('employee.index')->with('success', "Employee \"$user->name\" was Created");
+        } else {
+        }
     }
 
     /**
